@@ -1,0 +1,18 @@
+<div class="nested-fields">
+  <div class="field">
+    <%= f.label :description %>
+    <%= f.text_field :description %>
+  </div>
+
+  <div class="field">
+    <%= f.label :quantity %>
+    <%= f.number_field :quantity, min: 1 %>
+  </div>
+
+  <div class="field">
+    <%= f.label :unit_price %>
+    <%= f.number_field :unit_price, step: :any %>
+  </div>
+
+  <%= link_to_remove_association "Remove Item", f, class: 'remove-line-item-button' %>
+</div>

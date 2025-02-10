@@ -1,8 +1,7 @@
 <%= form_with(model: invoice) do |form| %>
   <% if invoice.errors.any? %>
-    <div style="color: red">
+    <div class="error-messages">
       <h2><%= pluralize(invoice.errors.count, "error") %> prohibited this invoice from being saved:</h2>
-
       <ul>
         <% invoice.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -11,42 +10,46 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :number, style: "display: block" %>
-    <%= form.text_field :number %>
-  </div>
-
-  <div>
-    <%= form.label :date, style: "display: block" %>
+  <div class="field">
+    <%= form.label :date %>
     <%= form.date_field :date %>
   </div>
 
-  <div>
-    <%= form.label :due_date, style: "display: block" %>
+  <div class="field">
+    <%= form.label :due_date %>
     <%= form.date_field :due_date %>
   </div>
 
-  <div>
-    <%= form.label :client_name, style: "display: block" %>
+  <div class="field">
+    <%= form.label :client_name %>
     <%= form.text_field :client_name %>
   </div>
 
-  <div>
-    <%= form.label :client_email, style: "display: block" %>
-    <%= form.text_field :client_email %>
+  <div class="field">
+    <%= form.label :client_email %>
+    <%= form.email_field :client_email %>
   </div>
 
-  <div>
-    <%= form.label :total_amount, style: "display: block" %>
-    <%= form.text_field :total_amount %>
+  <div class="field">
+    <%= form.label :status %>
+    <%= form.select :status, ['draft', 'sent', 'paid', 'cancelled'] %>
   </div>
 
-  <div>
-    <%= form.label :status, style: "display: block" %>
-    <%= form.text_field :status %>
+  <h3>Line Items</h3>
+  <div id="line-items">
+    <%= form.fields_for :line_items do |line_item| %>
+      <%= render 'line_item_fields', f: line_item %>
+    <% end %>
   </div>
 
-  <div>
+  <div class="links">
+    <%= link_to_add_association 'Add Line Item', form, :line_items, 
+        partial: 'line_item_fields',
+        class: 'add-line-item-button',
+        data: { association_insertion_node: '#line-items' } %>
+  </div>
+
+  <div class="actions">
     <%= form.submit %>
   </div>
 <% end %>

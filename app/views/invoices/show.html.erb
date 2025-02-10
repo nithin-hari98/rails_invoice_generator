@@ -1,10 +1,52 @@
-<p style="color: green"><%= notice %></p>
+<div class="invoice-details">
+  <h1>Invoice <%= @invoice.number %></h1>
 
-<%= render @invoice %>
+  <div class="invoice-header">
+    <div class="client-info">
+      <h3>Client Details</h3>
+      <p><strong>Name:</strong> <%= @invoice.client_name %></p>
+      <p><strong>Email:</strong> <%= @invoice.client_email %></p>
+    </div>
 
-<div>
-  <%= link_to "Edit this invoice", edit_invoice_path(@invoice) %> |
-  <%= link_to "Back to invoices", invoices_path %>
+    <div class="invoice-info">
+      <p><strong>Date:</strong> <%= @invoice.date %></p>
+      <p><strong>Due Date:</strong> <%= @invoice.due_date %></p>
+      <p><strong>Status:</strong> <%= @invoice.status %></p>
+    </div>
+  </div>
 
-  <%= button_to "Destroy this invoice", @invoice, method: :delete %>
+  <div class="line-items">
+    <h3>Items</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Quantity</th>
+          <th>Unit Price</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @invoice.line_items.each do |item| %>
+          <tr>
+            <td><%= item.description %></td>
+            <td><%= item.quantity %></td>
+            <td><%= number_to_currency(item.unit_price) %></td>
+            <td><%= number_to_currency(item.total_price) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3"><strong>Total Amount:</strong></td>
+          <td><%= number_to_currency(@invoice.total_amount) %></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+
+<div class="actions">
+  <%= link_to 'Edit', edit_invoice_path(@invoice) %> |
+  <%= link_to 'Back', invoices_path %>
 </div>
