@@ -1,11 +1,11 @@
-class CreateLineItems < ActiveRecord::Migration[7.2]
+class CreateLineItems < ActiveRecord::Migration[7.1]
   def change
     create_table :line_items do |t|
       t.references :invoice, null: false, foreign_key: true
-      t.string :description
-      t.integer :quantity
-      t.decimal :unit_price
-      t.decimal :total_price
+      t.string :description, null: false
+      t.integer :quantity, null: false, default: 1
+      t.decimal :unit_price, precision: 10, scale: 2, null: false
+      t.decimal :total_price, precision: 10, scale: 2, null: false
 
       t.timestamps
     end
